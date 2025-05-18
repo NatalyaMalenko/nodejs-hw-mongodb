@@ -13,7 +13,7 @@ const jsonParser = express.json();
 
 router.get('/', ctrlWrapper(getContactsController));
 
-router.get('/:contactId', ctrlWrapper(getContactByIdController));
+router.get('/:id', ctrlWrapper(getContactByIdController));
 router.post('/', jsonParser, ctrlWrapper(createContactController));
 router.patch('/:id', jsonParser, ctrlWrapper(updateContactController));
 router.delete('/:id', ctrlWrapper(deleteContactController));
