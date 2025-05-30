@@ -25,7 +25,15 @@ async function getContactsController(req, res) {
   res.status(200).json({
     status: 200,
     message: 'Successfully found contacts',
-    data: contacts,
+    data: {
+      data: [contacts],
+      page: 2,
+      perPage: 4,
+      totalItems: 6,
+      totalPages: 2,
+      hasPreviousPage: true,
+      hasNextPage: false,
+    },
   });
 }
 
