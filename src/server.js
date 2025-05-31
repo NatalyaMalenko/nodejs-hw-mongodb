@@ -1,15 +1,19 @@
 import 'dotenv/config';
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import pino from 'pino-http';
-import router from './routers/contacts.js';
+import authRouter from './routers/auth.js';
+import contactRouter from './routers/contacts.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
+import { authenticate } from './middlewares/authenticate.js';
 
 const PORT = Number(process.env.PORT || 3000);
 
 export const setupServer = () => {
   const app = express();
+  app.use(cookieParser());
 
   app.use(cors());
 
@@ -20,7 +24,9 @@ export const setupServer = () => {
       },
     }),
   );
-  app.use('/contacts', router);
+
+  app.use('/auth', authRouter);
+  app.use('/contacts', authenticate, contactRouter);
   app.use(notFoundHandler);
 
   app.use(errorHandler);
