@@ -1,3 +1,6 @@
+import * as fs from 'node:fs/promises';
+import path from 'node:path';
+
 import {
   allContacts,
   contactById,
@@ -9,6 +12,8 @@ import createHttpError from 'http-errors';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
+import { uploadToCloudinary } from '../utils/uploadToCloudinary.js';
+import { getEnvVar } from '../utils/getEnvVar.js';
 
 async function getContactsController(req, res) {
   console.log(req.user);
@@ -26,7 +31,7 @@ async function getContactsController(req, res) {
   });
   res.status(200).json({
     status: 200,
-    message: 'Successfully found contacts',
+    message: 'Successfully found contacts!',
     data: data,
   });
 }
@@ -47,7 +52,24 @@ async function getContactByIdController(req, res) {
 }
 
 async function createContactController(req, res) {
-  const contact = await createContact({ ...req.body, userId: req.user.id });
+  let photo = null;
+
+  if (getEnvVar('UPLOAD_TO_CLOUDINARY') === 'true') {
+    const result = await uploadToCloudinary(req.file.path);
+    await fs.unlink(req.file.path);
+    photo = result.secure_url;
+  } else
+    await fs.rename(
+      req.file.path,
+      path.resolve('uploads', 'photos', req.file.filename),
+    ),
+      (photo = `http://localhost:3000/photos/${req.file.filename}`);
+  const contact = await createContact({
+    ...req.body,
+    userId: req.user.id,
+    photo,
+  });
+
   res.status(201).json({
     status: 201,
     message: 'Successfully created a contact!',
