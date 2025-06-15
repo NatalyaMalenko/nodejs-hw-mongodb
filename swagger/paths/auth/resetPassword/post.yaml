@@ -19,10 +19,10 @@ requestBody:
             description: Contact's password
             format: password
             example: 1234567
-        accessToken:
-          type: string
-          description: Token from login response
-          example: DIOZoLk09iCOUY7F4turCTcitFhZmtETECK8j3rC
+          accessToken:
+            type: string
+            description: Token from login response
+            example: DIOZoLk09iCOUY7F4turCTcitFhZmtETECK8j3rC
 responses:
   '200':
     description: Reset password

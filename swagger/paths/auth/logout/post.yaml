@@ -14,9 +14,6 @@ parameters:
       example: 684df4a5c8cf9d247b1e1ff4
 responses:
   '204':
-    status:
-      type: integer
-      example: 204
-      description: Successfully logout user! There is nothing to return
+    description: Successfully logout user! There is nothing to return
   '404':
     $ref: '../../../components/responses/404.yaml'
