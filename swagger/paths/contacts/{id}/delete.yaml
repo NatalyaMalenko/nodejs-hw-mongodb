@@ -13,13 +13,6 @@ parameters:
       type: string
       description: ID of the contact to delete
       example: 684df4c2c8cf9d247b1e1ff8
-  - in: path
-    name: userId
-    required: true
-    schema:
-      type: string
-      description: Contact's owner id
-      example: 68449eab7e4b0dae34cbc9cd
 responses:
   '204':
     status:

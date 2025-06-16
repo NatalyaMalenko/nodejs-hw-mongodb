@@ -32,16 +32,21 @@ parameters:
       example: asc
       description: Sort order
   - in: query
-    name: filter
+    name: isFavourite
     schema:
-      type: string
-      example: isFavourite
+      type: boolean
       description: Filter by query
+      enum: ['true', 'false']
+      example: true
+      default: false
+
   - in: query
-    name: userId
+    name: contactType
     schema:
       type: string
-      example: 681f461358a5748d893ff8fb
+      description: Type of contact
+      enum: ['work', 'home', 'personal']
+      example: work
 responses:
   '200':
     description: Successfully found contacts!

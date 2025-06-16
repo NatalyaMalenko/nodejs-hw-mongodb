@@ -221,11 +221,7 @@
         ],
         "responses": {
           "204": {
-            "status": {
-              "type": "integer",
-              "example": 204,
-              "description": "Successfully logout user! There is nothing to return"
-            }
+            "description": "Successfully logout user! There is nothing to return"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -279,9 +275,15 @@
                       "example": "Successfully refreshed a session!"
                     },
                     "data": {
-                      "accessToken": {
-                        "type": "string",
-                        "example": "684df4a5c8cf9d247b1e1ff4"
+                      "type": "object",
+                      "required": [
+                        "accessToken"
+                      ],
+                      "properties": {
+                        "accessToken": {
+                          "type": "string",
+                          "example": "684df4a5c8cf9d247b1e1ff4"
+                        }
                       }
                     }
                   }
@@ -429,12 +431,12 @@
                     "description": "Contact's password",
                     "format": "password",
                     "example": 1234567
+                  },
+                  "accessToken": {
+                    "type": "string",
+                    "description": "Token from login response",
+                    "example": "DIOZoLk09iCOUY7F4turCTcitFhZmtETECK8j3rC"
                   }
-                },
-                "accessToken": {
-                  "type": "string",
-                  "description": "Token from login response",
-                  "example": "DIOZoLk09iCOUY7F4turCTcitFhZmtETECK8j3rC"
                 }
               }
             }
@@ -668,16 +670,6 @@
               "description": "ID of the contact to delete",
               "example": "684df4c2c8cf9d247b1e1ff8"
             }
-          },
-          {
-            "in": "path",
-            "name": "userId",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "description": "Contact's owner id",
-              "example": "68449eab7e4b0dae34cbc9cd"
-            }
           }
         ],
         "responses": {
@@ -750,19 +742,30 @@
           },
           {
             "in": "query",
-            "name": "filter",
+            "name": "isFavourite",
             "schema": {
-              "type": "string",
-              "example": "isFavourite",
-              "description": "Filter by query"
+              "type": "boolean",
+              "description": "Filter by query",
+              "enum": [
+                "true",
+                "false"
+              ],
+              "example": true,
+              "default": false
             }
           },
           {
             "in": "query",
-            "name": "userId",
+            "name": "contactType",
             "schema": {
               "type": "string",
-              "example": "681f461358a5748d893ff8fb"
+              "description": "Type of contact",
+              "enum": [
+                "work",
+                "home",
+                "personal"
+              ],
+              "example": "work"
             }
           }
         ],
@@ -862,8 +865,7 @@
                   "name",
                   "phoneNumber",
                   "email",
-                  "contactType",
-                  "photo"
+                  "contactType"
                 ],
                 "properties": {
                   "name": {
